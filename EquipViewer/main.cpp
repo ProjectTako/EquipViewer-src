@@ -154,7 +154,7 @@ bool EquipViewer::HandleCommand(int32_t mode, const char* command, bool injected
 				return false;
 			}
 
-			this->m_FontConfig.scale = (float)std::stof(args[2]);
+			this->m_FontConfig.scale = (float)fmax(0, fmin((float)std::stof(args[2]), 10.0f));
 			this->m_AshitaCore->GetConfigurationManager()->SetValue("EquipViewer", "config", "scale", std::to_string(this->m_FontConfig.scale).c_str());
 
 			// do this to trigger vertex buffer being remade
@@ -170,7 +170,9 @@ bool EquipViewer::HandleCommand(int32_t mode, const char* command, bool injected
 				return false;
 			}
 
-			this->m_FontConfig.opacity = (float)std::stof(args[2]);
+			// make sure what they passed is a valid value
+			this->m_FontConfig.opacity = (float)fmax(0, fmin((float)std::stof(args[2]), 1.0f));
+
 			this->m_AshitaCore->GetConfigurationManager()->SetValue("EquipViewer", "config", "opacity", std::to_string(this->m_FontConfig.opacity).c_str());
 
 			return true;
@@ -183,10 +185,10 @@ bool EquipViewer::HandleCommand(int32_t mode, const char* command, bool injected
 				return false;
 			}
 
-			this->m_FontConfig.bgcolor.alpha = (uint8_t)atoi(args[2].c_str());
-			this->m_FontConfig.bgcolor.red = (uint8_t)atoi(args[3].c_str());
-			this->m_FontConfig.bgcolor.green = (uint8_t)atoi(args[4].c_str());
-			this->m_FontConfig.bgcolor.blue = (uint8_t)atoi(args[5].c_str());
+			this->m_FontConfig.bgcolor.alpha = max(0, min((uint8_t)atoi(args[2].c_str()), 255));
+			this->m_FontConfig.bgcolor.red = max(0, min((uint8_t)atoi(args[3].c_str()), 255));
+			this->m_FontConfig.bgcolor.green = max(0, min((uint8_t)atoi(args[4].c_str()), 255));
+			this->m_FontConfig.bgcolor.blue = max(0, min((uint8_t)atoi(args[5].c_str()), 255));
 
 			this->m_AshitaCore->GetConfigurationManager()->SetValue("EquipViewer", "bgcolor", "alpha", std::to_string(this->m_FontConfig.bgcolor.alpha).c_str());
 			this->m_AshitaCore->GetConfigurationManager()->SetValue("EquipViewer", "bgcolor", "red", std::to_string(this->m_FontConfig.bgcolor.red).c_str());

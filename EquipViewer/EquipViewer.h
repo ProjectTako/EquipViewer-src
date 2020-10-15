@@ -15,7 +15,7 @@
 #include <vector>
 #include <string>
 #include <stdio.h>
-#include <tchar.h>
+#include <algorithm>
 
 #include <d3d8/includes/d3d8.h>
 #include <d3d8/includes/d3dx8.h>
