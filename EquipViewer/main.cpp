@@ -157,6 +157,9 @@ bool EquipViewer::HandleCommand(int32_t mode, const char* command, bool injected
 			this->m_FontConfig.scale = (float)std::stof(args[2]);
 			this->m_AshitaCore->GetConfigurationManager()->SetValue("EquipViewer", "config", "scale", std::to_string(this->m_FontConfig.scale).c_str());
 
+			// do this to trigger vertex buffer being remade
+			this->m_PositionChanged = true;
+
 			return true;
 		}
 		else if (args[1] == "opacity")
@@ -169,19 +172,6 @@ bool EquipViewer::HandleCommand(int32_t mode, const char* command, bool injected
 
 			this->m_FontConfig.opacity = (float)std::stof(args[2]);
 			this->m_AshitaCore->GetConfigurationManager()->SetValue("EquipViewer", "config", "opacity", std::to_string(this->m_FontConfig.opacity).c_str());
-
-			return true;
-		}
-		else if (args[1] == "size")
-		{
-			if (count < 3)
-			{
-				this->m_AshitaCore->GetChatManager()->Write(132, false, "[EquipViewer] Not enough arguments.");
-				return false;
-			}
-
-			this->m_FontConfig.size = (uint32_t)atoi(args[2].c_str());
-			this->m_AshitaCore->GetConfigurationManager()->SetValue("EquipViewer", "config", "size", std::to_string(this->m_FontConfig.size).c_str());
 
 			return true;
 		}
@@ -500,7 +490,7 @@ void EquipViewer::Direct3DPresent(const RECT* pSourceRect, const RECT* pDestRect
 			// once we have the rect size, we can use the size to offset the RECT so it's overlaying the ammo slot
 			rect.left = this->m_FontConfig.position.x + (this->m_FontConfig.size * 4 * this->m_FontConfig.scale) - (rect.right - rect.left);
 
-			// rect should be right now, call draw normally
+			// rect should be right now, call draw normal
 			this->m_AmmoFont->DrawText(buffer, -1, &rect, DT_LEFT, 0xFFFFFFFF);
 
 			// end font work
