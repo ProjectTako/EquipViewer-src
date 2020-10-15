@@ -25,12 +25,12 @@ const char* EquipViewer::GetDescription(void) const
 
 const char* EquipViewer::GetLink(void) const
 {
-	return u8"https://projecttako.com/";
+	return u8"https://github.com/ProjectTako/EquipViewer/";
 }
 
 double EquipViewer::GetVersion(void) const
 {
-	return 4.00;
+	return 4.01;
 }
 
 int32_t EquipViewer::GetPriority(void) const 
@@ -670,6 +670,7 @@ bool EquipViewer::SetupBackground()
 
 bool EquipViewer::SetupEncumberance(equipslotdata_t equipSlot)
 {
+	// unsed.. but keeping it in here incase I deceide to go back to this style 
 	if (this->m_pEncumberanceIndexBuffer == nullptr)
 	{
 		uint16_t indicies[] =
