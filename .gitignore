@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Build files
+.vs/*
+Debug/*
+Release/*
+
+# Log files
+*.log
+*.tlog

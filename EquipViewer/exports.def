@@ -1,0 +1,4 @@
+LIBRARY "equipviewer"
+EXPORTS
+	expCreatePlugin
+	expGetInterfaceVersion
