@@ -252,7 +252,12 @@ bool EquipViewer::HandleIncomingPacket(uint16_t id, uint32_t size, const uint8_t
 	{
 		for (auto x = 0; x < (uint32_t)Ashita::FFXI::Enums::EquipmentSlot::Max; x++)
 		{
-			this->m_EquipmentData[x].encumbered = Ashita::BinaryData::UnpackBitsBE((uint8_t*)data, 0x60, x, 1);
+			// get where this slot is in our equipment data
+			auto iter = std::find_if(this->m_EquipmentData.begin(), this->m_EquipmentData.end(), [x](equipslotdata_t &slot) { return slot.slotId == x; });
+			if (iter != this->m_EquipmentData.end())
+			{
+				iter->encumbered = Ashita::BinaryData::UnpackBitsBE((uint8_t*)data, 0x60, x, 1);
+			}
 		}
 	}
 
