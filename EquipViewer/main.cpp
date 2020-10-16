@@ -291,7 +291,8 @@ bool EquipViewer::Direct3DInitialize(IDirect3DDevice8* device)
 	{
 		char buffer[255];
 		auto error = D3DXGetErrorStringA(result, buffer, 255);
-		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create sprite! HRESULT: %d. Error: %s", error, buffer);
+		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create sprite!");
+		this->m_LogManager->Logf((uint32_t)Ashita::LogLevel::Error, "EquipViewer", "D3DXCreateSprite failure! HRESULT: %d. Error: %s", error, buffer);
 
 		return false;
 	}
@@ -305,12 +306,13 @@ bool EquipViewer::Direct3DInitialize(IDirect3DDevice8* device)
 		{
 			char buffer[255];
 			auto error = D3DXGetErrorStringA(result, buffer, 255);
-			this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create font! HRESULT: %d. Error: %s", error, buffer);
+			this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create font! Some features may no work correctly.");
+			this->m_LogManager->Logf((uint32_t)Ashita::LogLevel::Error, "EquipViewer", "D3DXCreateFont failure for m_AmmoFont! HRESULT: %d. Error: %s", error, buffer);
 		}
 	}
 	else
 	{
-		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create font. CreateFontA failed.");
+		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create font! Some features may no work correctly.");
 	}
 
 	// create font for encumberance
@@ -322,12 +324,13 @@ bool EquipViewer::Direct3DInitialize(IDirect3DDevice8* device)
 		{
 			char buffer[255];
 			auto error = D3DXGetErrorStringA(result, buffer, 255);
-			this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create font! HRESULT: %d. Error: %s", error, buffer);
+			this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create font! Some features may no work correctly.");
+			this->m_LogManager->Logf((uint32_t)Ashita::LogLevel::Error, "EquipViewer", "D3DXCreateFont failure for m_EncumberanceFont! HRESULT: %d. Error: %s", error, buffer);
 		}
 	}
 	else
 	{
-		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create font. CreateFontA failed.");
+		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Failed to create font! Some features may no work correctly.");
 	}
 
 	// doesn't hurt
@@ -794,7 +797,8 @@ IDirect3DTexture8* EquipViewer::LoadItemTexture(IItem* item)
 		char buffer[255];
 		auto error = D3DXGetErrorStringA(result, buffer, 255);
 
-		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Error on D3DXCreateTextureFromFileInMemoryEx! HRESULT: %d. Error: %s.", error, buffer);
+		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Error creating item texture.");
+		this->m_LogManager->Logf((uint32_t)Ashita::LogLevel::Error, "EquipViewer", "Error on D3DXCreateTextureFromFileInMemoryEx! HRESULT: %d. Error: %s.", error, buffer);
 	}
 
 	free(ptr);

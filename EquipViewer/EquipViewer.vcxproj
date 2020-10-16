@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>E:\Apps\Ashita4\plugins\sdk\d3d8\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>T:\Projects\AshitaPlugins\v4\Releases\EquipViewer\plugins</OutDir>
+    <OutDir>T:\Projects\AshitaPlugins\v4\Releases\EquipViewer\plugins\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
