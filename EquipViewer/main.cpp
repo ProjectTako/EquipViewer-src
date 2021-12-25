@@ -10,22 +10,22 @@ EquipViewer::EquipViewer(void) : m_AshitaCore(nullptr), m_LogManager(nullptr), m
 
 const char* EquipViewer::GetName(void) const
 {
-	return u8"Equip Viewer";
+	return "Equip Viewer";
 }
 
 const char* EquipViewer::GetAuthor(void) const
 {
-	return u8"Project Tako";
+	return "Project Tako";
 }
 
 const char* EquipViewer::GetDescription(void) const
 {
-	return u8"A plugin for displaying your current equipment.";
+	return "A plugin for displaying your current equipment.";
 }
 
 const char* EquipViewer::GetLink(void) const
 {
-	return u8"https://github.com/ProjectTako/EquipViewer/";
+	return "https://github.com/ProjectTako/EquipViewer/";
 }
 
 double EquipViewer::GetVersion(void) const
@@ -444,9 +444,14 @@ void EquipViewer::Direct3DPresent(const RECT* pSourceRect, const RECT* pDestRect
 			rect.top = 0;
 			rect.right = this->m_FontConfig.size;
 			rect.bottom = this->m_FontConfig.size;
+			
+			// create the vectors 
+			auto pScaleVect = D3DXVECTOR2(this->m_FontConfig.scale, this->m_FontConfig.scale);
+			auto pTranslationVect = D3DXVECTOR2(this->m_FontConfig.position.x + (it->texturedata.xoffset * this->m_FontConfig.scale), this->m_FontConfig.position.y + (it->texturedata.yoffset * this->m_FontConfig.scale));
 
 			// draw texture to sprite
-			this->m_Sprite->Draw(it->texturedata.itemTexture, &rect, &D3DXVECTOR2(this->m_FontConfig.scale, this->m_FontConfig.scale), NULL, 0.0f, &D3DXVECTOR2(this->m_FontConfig.position.x + (it->texturedata.xoffset * this->m_FontConfig.scale), this->m_FontConfig.position.y + (it->texturedata.yoffset * this->m_FontConfig.scale)), color);
+			this->m_Sprite->Draw(it->texturedata.itemTexture, &rect, &pScaleVect, NULL, 0.0f, &pTranslationVect, color);
+
 		}
 
 		// handle emcumberance even if we don't have anything equipped there
