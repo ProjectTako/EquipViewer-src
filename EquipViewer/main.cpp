@@ -772,30 +772,10 @@ IDirect3DTexture8* EquipViewer::LoadItemTexture(IItem* item)
 	if (item == nullptr || item->ImageSize == 0 || item->Bitmap == nullptr)
 		return nullptr;
 
-	auto ptr = malloc(item->ImageSize + 0x0E);
-	if (ptr == nullptr)
-	{
-		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Could not allocate memory for item image.");
-		return nullptr;
-	}
-
-	auto ptrOffset = static_cast<uint8_t*>(ptr) + 0x02;
-	if (ptrOffset == nullptr)
-	{
-		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Could not allocate memory for item image.");
-		return nullptr;
-	}
-
-	auto size = item->ImageSize + 0x0E;
-
-	// copy image to allocated memory
-	memcpy(ptr, (void*)item->Bitmap, size);
-	memcpy(ptrOffset, &size, sizeof(uint32_t));
-
 	// creeate texture
 	D3DXIMAGE_INFO pImgInfo;
 	LPDIRECT3DTEXTURE8 pTexture;
-	auto result = D3DXCreateTextureFromFileInMemoryEx(this->m_Direct3DDevice, (LPCVOID)ptr, item->ImageSize + 0x0E, 0xFFFFFFFF, 0xFFFFFFFF, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, 0xFFFFFFFF, 0xFFFFFFFF, 0xFF000000, &pImgInfo, NULL, &pTexture);
+	auto result = D3DXCreateTextureFromFileInMemoryEx(this->m_Direct3DDevice, (LPCVOID)item->Bitmap, item->ImageSize + 0x0E, 0xFFFFFFFF, 0xFFFFFFFF, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0xFF000000, &pImgInfo, NULL, &pTexture);
 
 	if (result != S_OK)
 	{
@@ -804,9 +784,9 @@ IDirect3DTexture8* EquipViewer::LoadItemTexture(IItem* item)
 
 		this->m_AshitaCore->GetChatManager()->Writef(128, false, "[EquipViewer] Error creating item texture.");
 		this->m_LogManager->Logf((uint32_t)Ashita::LogLevel::Error, "EquipViewer", "Error on D3DXCreateTextureFromFileInMemoryEx! HRESULT: %d. Error: %s.", error, buffer);
-	}
 
-	free(ptr);
+		return nullptr;
+	}
 
 	return pTexture;
 }
